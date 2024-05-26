@@ -4,26 +4,27 @@
 
 using System;
 
-namespace SmartFormat.Core.Parsing;
-
-/// <summary>
-/// Supplies information about parsing errors.
-/// </summary>
-public class ParsingErrorEventArgs : EventArgs
+namespace SmartFormat.Core.Parsing
 {
-    internal ParsingErrorEventArgs(ParsingErrors errors, bool throwsException)
+    /// <summary>
+    /// Supplies information about parsing errors.
+    /// </summary>
+    public class ParsingErrorEventArgs : EventArgs
     {
-        Errors = errors;
-        ThrowsException = throwsException;
+        internal ParsingErrorEventArgs(ParsingErrors errors, bool throwsException)
+        {
+            Errors = errors;
+            ThrowsException = throwsException;
+        }
+
+        /// <summary>
+        /// All parsing errors which occurred during parsing.
+        /// </summary>
+        public ParsingErrors Errors { get; internal set; }
+
+        /// <summary>
+        /// If <see langword="true"/>, errors will throw an exception.
+        /// </summary>
+        public bool ThrowsException { get; internal set; }
     }
-
-    /// <summary>
-    /// All parsing errors which occurred during parsing.
-    /// </summary>
-    public ParsingErrors Errors { get; internal set; }
-
-    /// <summary>
-    /// If <see langword="true"/>, errors will throw an exception.
-    /// </summary>
-    public bool ThrowsException { get; internal set; }
 }

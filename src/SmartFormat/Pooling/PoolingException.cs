@@ -4,35 +4,36 @@
 
 using System;
 
-namespace SmartFormat.Pooling;
-
-/// <summary>
-/// Represents an <i>Exception</i> thrown by the pooling subsystem.
-/// </summary>
-[Serializable]
-public class PoolingException : InvalidOperationException
+namespace SmartFormat.Pooling
 {
     /// <summary>
-    /// Creates a instance of a <see cref="PoolingException"/>.
+    /// Represents an <i>Exception</i> thrown by the pooling subsystem.
     /// </summary>
-    /// <param name="message"></param>
-    /// <param name="poolType"></param>
-    public PoolingException(string message, Type poolType) : base(message)
+    [Serializable]
+    public class PoolingException : InvalidOperationException
     {
-        PoolType = poolType;
-    }
+        /// <summary>
+        /// Creates a instance of a <see cref="PoolingException"/>.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="poolType"></param>
+        public PoolingException(string message, Type poolType) : base(message)
+        {
+            PoolType = poolType;
+        }
 
-    ///<inheritdoc/>
-    [Obsolete("This API supports obsolete formatter-based serialization. It will be removed in version 4.")]
-    protected PoolingException(
-        System.Runtime.Serialization.SerializationInfo info,
-        System.Runtime.Serialization.StreamingContext context) : base(info, context)
-    {
-        PoolType = typeof(object);
-    }
+        ///<inheritdoc/>
+        [Obsolete("This API supports obsolete formatter-based serialization. It will be removed in version 4.")]
+        protected PoolingException(
+            System.Runtime.Serialization.SerializationInfo info,
+            System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        {
+            PoolType = typeof(object);
+        }
 
-    /// <summary>
-    /// Gets the type of pool, which threw the exception.
-    /// </summary>
-    public Type PoolType { get; }
+        /// <summary>
+        /// Gets the type of pool, which threw the exception.
+        /// </summary>
+        public Type PoolType { get; }
+    }
 }

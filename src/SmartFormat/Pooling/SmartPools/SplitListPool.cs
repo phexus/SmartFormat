@@ -8,41 +8,42 @@ using SmartFormat.Core.Parsing;
 using SmartFormat.Core.Settings;
 using SmartFormat.Pooling.SpecializedPools;
 
-namespace SmartFormat.Pooling.SmartPools;
-
-/// <summary>
-/// The object pool for <see cref="SplitList"/>.
-/// </summary>
-internal sealed class SplitListPool : SmartPoolAbstract<SplitList>
+namespace SmartFormat.Pooling.SmartPools
 {
-    // Note: The pool for the SplitList can be thread safe,
-    // but this is not needed for the SplitList elements of the pool (which are an IList<Format>).
-    private static readonly Lazy<SplitListPool> Lazy = new(() => new SplitListPool(),
-        SmartSettings.IsThreadSafeMode
-            ? LazyThreadSafetyMode.PublicationOnly
-            : LazyThreadSafetyMode.None);
-        
     /// <summary>
-    /// CTOR.
+    /// The object pool for <see cref="SplitList"/>.
     /// </summary>
-    /// <remarks>
-    /// <see cref="SpecializedPoolAbstract{T}.Policy"/> must be set before initializing the pool
-    /// </remarks>
-    private SplitListPool()
+    internal sealed class SplitListPool : SmartPoolAbstract<SplitList>
     {
-        Policy.FunctionOnCreate = () => new SplitList();
-        Policy.ActionOnReturn = sl => sl.Clear();
-    }
+        // Note: The pool for the SplitList can be thread safe,
+        // but this is not needed for the SplitList elements of the pool (which are an IList<Format>).
+        private static readonly Lazy<SplitListPool> Lazy = new(() => new SplitListPool(),
+            SmartSettings.IsThreadSafeMode
+                ? LazyThreadSafetyMode.PublicationOnly
+                : LazyThreadSafetyMode.None);
 
-    /// <inheritdoc/>
-    public override void Return(SplitList toReturn)
-    {
-        if (ReferenceEquals(toReturn, InitializationObject.SplitList)) throw new PoolingException($"{nameof(InitializationObject)}s cannot be returned to the pool.", GetType());
-        base.Return(toReturn);
-    }
+        /// <summary>
+        /// CTOR.
+        /// </summary>
+        /// <remarks>
+        /// <see cref="SpecializedPoolAbstract{T}.Policy"/> must be set before initializing the pool
+        /// </remarks>
+        private SplitListPool()
+        {
+            Policy.FunctionOnCreate = () => new SplitList();
+            Policy.ActionOnReturn = sl => sl.Clear();
+        }
 
-    /// <summary>
-    /// Gets the existing instance of the pool or lazy-creates a new one, which is then added to the registry.
-    /// </summary>
-    public static SplitListPool Instance => PoolRegistry.GetOrAdd(Lazy.Value);
+        /// <inheritdoc/>
+        public override void Return(SplitList toReturn)
+        {
+            if (ReferenceEquals(toReturn, InitializationObject.SplitList)) throw new PoolingException($"{nameof(InitializationObject)}s cannot be returned to the pool.", GetType());
+            base.Return(toReturn);
+        }
+
+        /// <summary>
+        /// Gets the existing instance of the pool or lazy-creates a new one, which is then added to the registry.
+        /// </summary>
+        public static SplitListPool Instance => PoolRegistry.GetOrAdd(Lazy.Value);
+    }
 }

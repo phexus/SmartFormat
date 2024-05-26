@@ -4,32 +4,33 @@
 
 using System;
 
-namespace SmartFormat;
-
-/// <summary>
-/// Supplies information about formatting errors.
-/// </summary>
-public class FormattingErrorEventArgs : EventArgs
+namespace SmartFormat
 {
-    internal FormattingErrorEventArgs(string rawText, int errorIndex, bool ignoreError)
+    /// <summary>
+    /// Supplies information about formatting errors.
+    /// </summary>
+    public class FormattingErrorEventArgs : EventArgs
     {
-        Placeholder = rawText;
-        ErrorIndex = errorIndex;
-        IgnoreError = ignoreError;
+        internal FormattingErrorEventArgs(string rawText, int errorIndex, bool ignoreError)
+        {
+            Placeholder = rawText;
+            ErrorIndex = errorIndex;
+            IgnoreError = ignoreError;
+        }
+
+        /// <summary>
+        /// Placeholder which caused an error.
+        /// </summary>
+        public string Placeholder { get; }
+
+        /// <summary>
+        /// Location where the error occurred.
+        /// </summary>
+        public int ErrorIndex { get; }
+
+        /// <summary>
+        /// Information whether error will throw an exception.
+        /// </summary>
+        public bool IgnoreError { get; }
     }
-
-    /// <summary>
-    /// Placeholder which caused an error.
-    /// </summary>
-    public string Placeholder { get; }
-
-    /// <summary>
-    /// Location where the error occurred.
-    /// </summary>
-    public int ErrorIndex { get; }
-
-    /// <summary>
-    /// Information whether error will throw an exception.
-    /// </summary>
-    public bool IgnoreError { get; }
 }
